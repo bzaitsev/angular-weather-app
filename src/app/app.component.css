@@ -1,0 +1,59 @@
+/* .h1 {
+    color: #369;
+    font-family: Arial, Helvetica, sans-serif;
+} */
+:root {
+  --app-main-background-color: #ddd;
+}
+.app-root {
+  font-family: helvetica, sans-serif;
+  border: 1px solid #ccc;
+  padding-bottom: 10px;
+}
+.app-header {
+  display: flex;
+  justify-content: space-between;
+}
+.app-side-paddings {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+.app-header,
+.app-parameters {
+  padding: 10px;
+  background-color: #ddd;
+}
+.app-data-block {
+  padding-top: 15px;
+  padding-bottom: 10px;
+}
+.app-searchfield {
+  padding: 5px;
+}
+.app-chart {
+  display: block;
+}
+.icon-weather-status {
+  max-height: 1.8em;
+  vertical-align: middle;
+}
+.app-center-text {
+  text-align: center;
+}
+.app-temperature {
+  font-size: 25px;
+}
+.app-weather-status {
+  font-size: 14px;
+}
+.app-parameter {
+  display: inline-block;
+}
+.app-parameter:not(:first-of-type) {
+  margin-left: 15px;
+}
+.app-weather-chart-container {
+  position: relative;
+  width: 100%;
+  height: 500px;
+}

@@ -1,3 +1,56 @@
-<h1>
-  {{title}}
-</h1>
+<div class="app-root">
+  <simple-notifications></simple-notifications>
+
+  <header class="app-header">
+    <div>
+      <img [src]="iconUrl" alt="" class="icon-weather-status">
+      Forecast
+    </div>
+    <input #searchfield (keyup.enter)="onSearchEnter(searchfield.value)" type="search" class="app-searchfield" id="city-searchfield" placeholder="City or zip code">
+  </header>
+
+  <div class="app-data-block app-side-paddings">
+    <div>{{detailedWeather.dt_txt | date:'EEEE, d MMMM'}}</div>
+    <div class="app-center-text">
+      <div class="app-location">
+        {{allWeather.city.name}}, {{allWeather.city.country}}
+      </div>
+
+      <div class="app-temperature">
+        {{detailedWeather.main.temp | number: '1.0-0'}}&deg;C
+      </div>
+
+      <div class="app-weather-status">
+        <img [src]="iconUrl" alt="" class="icon-weather-status">
+        {{weatherStatus}}
+      </div>
+    </div>
+  </div>
+
+  <div class="app-center-text app-parameters">
+    <strong class="app-parameter">Pressure:</strong> {{detailedWeather.main.pressure | number: '1.0-0'}} hPa
+    <strong class="app-parameter">Humidity:</strong> {{detailedWeather.main.humidity}}%
+    <strong class="app-parameter">Wind Speed:</strong> {{detailedWeather.wind.speed | number: '1.0-1'}} m/s
+    <strong class="app-parameter">Clouds:</strong> {{detailedWeather.clouds.all}}%
+  </div>
+
+  <!--
+    <app-tabs>
+      <div class="one">
+        <app-chart class="chart"></app-chart>
+      </div>
+      ...
+    </app-tabs>
+   -->
+
+  <div class="app-side-paddings">
+    <br>
+    Forecast {{allWeather.cnt}} days
+
+    <div class="app-weather-chart-container">
+      <canvas id="app-weather-chart"></canvas>
+    </div>
+
+    <!-- <app-chart class="app-chart"></app-chart> -->
+  </div>
+</div>
