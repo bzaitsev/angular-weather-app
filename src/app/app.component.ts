@@ -1,31 +1,14 @@
-/**
-
-*) Format 1,024 number
-*) Update chart (bugs)
-*) chart labels (6 feb, 15:00)
-*) Tabs
-*) Footer
-
-*) refactoring, ed-video
-*) push on github, publish in internet
-
-**/
-
-import { Component, OnInit } from '@angular/core';
-import { formatDate } from '@angular/common';
-import { WeatherService } from './weather.service';
+import { Component } from '@angular/core';
+import { WeatherService } from './services/weather.service';
 import { NotificationsService } from 'angular2-notifications';
-import { Chart } from 'chart.js';
-import * as moment from 'moment';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: [
-    './app.component.css'
-  ]
+  styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit {
+export class AppComponent {
   firstLoad = true;
   iconUrl = '';
   weatherStatus = 'Status';
@@ -49,43 +32,15 @@ export class AppComponent implements OnInit {
     }
   };
   allWeather = {
+    list: [],
     cnt: 0,
     city: {
       name: 'City',
       country: 'Country'
     }
   };
-
-  ngOnInit() {
-    window.app = window.app || {};
-
-    window.app.chart = new Chart('app-weather-chart', {
-      type: 'bar',
-      data: {
-        labels: [],
-        datasets: [{
-          label: 'Temperature, C',
-          data: [],
-          backgroundColor: 'rgba(255, 108, 3, 0.3)',
-          borderColor: 'rgba(255, 108, 3, 1)',
-          borderWidth: 1
-        }]
-      },
-      options: {
-        maintainAspectRatio: false,
-        scales: {
-          yAxes: [{
-            // stacked: true
-          }],
-          xAxes: [{
-            gridLines: {
-              display: false
-            }
-          }]
-        }
-      }
-    });
-  }
+  chartOptions = null;
+  chartParam = 'temperature';
 
   constructor(
     private weatherService: WeatherService,
@@ -94,9 +49,18 @@ export class AppComponent implements OnInit {
     this.getWeather('London');
   }
 
-  onSearchEnter(city, event) {
+  onSearchEnter(city) {
     this.disableCitySearchField();
     this.getWeather(city);
+  }
+
+  onToolbarClick(event) {
+    const target = event.target;
+    const type = target.getAttribute('data-type');
+
+    if (!type) return;
+
+    this.chartOptions = this.getChartOptions(type);
   }
 
   disableCitySearchField(value = true) {
@@ -104,10 +68,100 @@ export class AppComponent implements OnInit {
 
     if (!citySearchField) return;
 
-    citySearchField.disabled = value;
+    if (value) {
+      citySearchField.setAttribute('disabled', 'true');
+    } else {
+      citySearchField.removeAttribute('disabled');
+    }
   }
 
-  getWeather(city): void {
+  getChartOptions(type) {
+    let data: any = {};
+
+    if (type) {
+      this.chartParam = type;
+    }
+
+    switch (this.chartParam) {
+      case 'temperature':
+        data = this.getTemperatureData();
+        break;
+      case 'pressure':
+        data = this.getPressureData();
+        break;
+      case 'wind':
+        data = this.getWindData();
+        break;
+      case 'humidity':
+        data = this.getHumidityData();
+        break;
+    }
+
+    data.labels = this.allWeather.list.map(item => {
+      const datePipe = new DatePipe('en-US');
+      return datePipe.transform(item.dt_txt, 'H:mm, d MMM'); // 15:00, 6 Feb
+    });
+
+    return data;
+  }
+
+  getTemperatureData() {
+    let chartData = this.allWeather.list.map(item => {
+      return item.main.temp;
+    });
+
+    return {
+      data: chartData,
+      label: 'Temperature, C',
+      backgroundColor: 'rgba(255, 80, 80, 0.3)',
+      hoverBackgroundColor: 'rgba(255, 80, 80, 0.5)',
+      borderColor: 'rgba(255, 80, 80, 1)'
+    }
+  }
+
+  getPressureData() {
+    let chartData = this.allWeather.list.map(item => {
+      return item.main.pressure;
+    });
+
+    return {
+      data: chartData,
+      label: 'Pressure, hPa',
+      backgroundColor: 'rgba(255, 108, 3, 0.3)',
+      hoverBackgroundColor: 'rgba(255, 108, 3, 0.5)',
+      borderColor: 'rgba(255, 108, 3, 1)'
+    }
+  }
+
+  getWindData() {
+    let chartData = this.allWeather.list.map(item => {
+      return item.wind.speed;
+    });
+
+    return {
+      data: chartData,
+      label: 'Wind, m/s',
+      backgroundColor: 'rgba(3, 255, 34, 0.3)',
+      hoverBackgroundColor: 'rgba(3, 255, 34, 0.5)',
+      borderColor: 'rgba(3, 255, 34, 1)'
+    }
+  }
+
+  getHumidityData() {
+    let chartData = this.allWeather.list.map(item => {
+      return item.main.humidity;
+    });
+
+    return {
+      data: chartData,
+      label: 'Humidity, %',
+      backgroundColor: 'rgba(3, 69, 255, 0.3)',
+      hoverBackgroundColor: 'rgba(3, 69, 255, 0.5)',
+      borderColor: 'rgba(3, 69, 255, 1)'
+    }
+  }
+
+  getWeather(city) {
     this.weatherService.getWeather(city).subscribe(
       response => {
         this.disableCitySearchField(false);
@@ -122,6 +176,7 @@ export class AppComponent implements OnInit {
           return this.notificationsService.error('Error', `${data.cod} ${data.message}`);
         }
 
+        // set data
         this.allWeather = data;
         this.detailedWeather = data.list[0];
         this.iconUrl = `http://openweathermap.org/img/w/${this.detailedWeather.weather[0].icon}.png`;
@@ -130,27 +185,14 @@ export class AppComponent implements OnInit {
         if (this.firstLoad) {
           this.firstLoad = false;
         } else {
-          this.notificationsService.success('Loaded forecast', `${this.allWeather.city.name}, ${this.allWeather.city.country}`);
+          this.notificationsService.success('Loaded Forecast', `${this.allWeather.city.name}, ${this.allWeather.city.country}`);
         }
 
-        // chart
-        let chartData = data.list.map(item => {
-          return item.main.temp;
-        });
-
-        let chartLabels = data.list.map(item => {
-          return item.dt_txt;
-        });
-
-        // debugger;
-
-        window.app.chart.data.labels = chartLabels;
-        window.app.chart.data.datasets[0].data = chartData;
-        window.app.chart.update();
+        this.chartOptions = this.getChartOptions(this.chartParam);
       },
       error => {
-        this.disableCitySearchField(false);
         const data = error.json();
+        this.disableCitySearchField(false);
         return this.notificationsService.error(`Error ${data.cod}`, data.message);
       }
     );

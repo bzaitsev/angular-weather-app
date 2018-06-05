@@ -1,16 +1,9 @@
-/* .h1 {
-    color: #369;
-    font-family: Arial, Helvetica, sans-serif;
-} */
-:root {
-  --app-main-background-color: #ddd;
-}
 .app-root {
   font-family: helvetica, sans-serif;
   border: 1px solid #ccc;
   padding-bottom: 10px;
 }
-.app-header {
+.app-head {
   display: flex;
   justify-content: space-between;
 }
@@ -18,10 +11,13 @@
   padding-left: 10px;
   padding-right: 10px;
 }
-.app-header,
+.app-head,
 .app-parameters {
   padding: 10px;
   background-color: #ddd;
+}
+.app-parameters {
+  margin-bottom: 20px;
 }
 .app-data-block {
   padding-top: 15px;
@@ -29,9 +25,6 @@
 }
 .app-searchfield {
   padding: 5px;
-}
-.app-chart {
-  display: block;
 }
 .icon-weather-status {
   max-height: 1.8em;
@@ -52,8 +45,33 @@
 .app-parameter:not(:first-of-type) {
   margin-left: 15px;
 }
-.app-weather-chart-container {
-  position: relative;
-  width: 100%;
-  height: 500px;
+.app-footer {
+  margin-top: 30px;
+  font-size: 14px;
+  text-align: center;
+}
+.app-footer .angular-logo {
+  width: 15px;
+  vertical-align: text-bottom;
+}
+.app-toolbar {
+  margin: 20px 0 0 0;
+}
+.app-toolbar button {
+  background-color: #f6f6f6;
+  border: 1px solid #ccc;
+  line-height: 30px;
+  padding: 0px 10px;
+  cursor: pointer;
+  outline: none;
+}
+.app-toolbar button:not(:first-of-type) {
+  border-left-width: 0;
+}
+.app-toolbar :hover {
+  background-color: #eee;
+}
+.app-toolbar .active,
+.app-toolbar .active:hover {
+  background-color: #ddd;
 }
