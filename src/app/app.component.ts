@@ -179,7 +179,7 @@ export class AppComponent {
         // set data
         this.allWeather = data;
         this.detailedWeather = data.list[0];
-        this.iconUrl = `http://openweathermap.org/img/w/${this.detailedWeather.weather[0].icon}.png`;
+        this.iconUrl = `https://openweathermap.org/img/w/${this.detailedWeather.weather[0].icon}.png`;
         this.weatherStatus = this.detailedWeather.weather[0].main;
 
         if (this.firstLoad) {

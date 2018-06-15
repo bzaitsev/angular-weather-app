@@ -4,7 +4,7 @@ import { Http, URLSearchParams } from '@angular/http';
 @Injectable()
 export class WeatherService {
   // http://api.openweathermap.org/data/2.5/forecast?q=London&cnt=2&appid=06de189f9149b695124a27a8abeeffcb
-  private weatherUrl = 'http://api.openweathermap.org/data/2.5/forecast';
+  private weatherUrl = 'https://api.openweathermap.org/data/2.5/forecast';
 
   constructor(
     private http: Http
