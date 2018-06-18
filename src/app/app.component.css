@@ -26,7 +26,7 @@
 .app-searchfield {
   padding: 5px;
 }
-.icon-weather-status {
+.icon-cloudiness {
   max-height: 1.8em;
   vertical-align: middle;
 }
@@ -36,7 +36,7 @@
 .app-temperature {
   font-size: 25px;
 }
-.app-weather-status {
+.app-cloudiness {
   font-size: 14px;
 }
 .app-parameter {
@@ -54,24 +54,25 @@
   width: 15px;
   vertical-align: text-bottom;
 }
-.app-toolbar {
+.app-chart-toolbar {
   margin: 20px 0 0 0;
 }
-.app-toolbar button {
+.app-chart-toolbar button {
   background-color: #f6f6f6;
   border: 1px solid #ccc;
   line-height: 30px;
   padding: 0px 10px;
   cursor: pointer;
   outline: none;
+  text-transform: capitalize;
 }
-.app-toolbar button:not(:first-of-type) {
+.app-chart-toolbar button:not(:first-of-type) {
   border-left-width: 0;
 }
-.app-toolbar :hover {
+.app-chart-toolbar :hover {
   background-color: #eee;
 }
-.app-toolbar .active,
-.app-toolbar .active:hover {
+.app-chart-toolbar .active,
+.app-chart-toolbar .active:hover {
   background-color: #ddd;
 }

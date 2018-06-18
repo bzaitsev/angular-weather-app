@@ -1,27 +1,26 @@
 import { Injectable } from '@angular/core';
-import { Http, URLSearchParams } from '@angular/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 
 @Injectable()
 export class WeatherService {
-  // http://api.openweathermap.org/data/2.5/forecast?q=London&cnt=2&appid=06de189f9149b695124a27a8abeeffcb
   private weatherUrl = 'https://api.openweathermap.org/data/2.5/forecast';
 
   constructor(
-    private http: Http
+    private http: HttpClient
   ) {}
 
-  getWeather(city) {
-    const params = new URLSearchParams();
+  getWeather(city: string) {
+    let params = new HttpParams();
 
     if (!city) {
       city = 'London';
     }
 
-    params.set('q', city);
-    params.set('cnt', '16');
-    params.set('units', 'metric');
-    params.set('appid', '06de189f9149b695124a27a8abeeffcb');
+    params = params.append('q', city);
+    params = params.append('cnt', '16');
+    params = params.append('units', 'metric');
+    params = params.append('appid', '06de189f9149b695124a27a8abeeffcb');
 
-    return this.http.get(this.weatherUrl, {search: params});
+    return this.http.get(this.weatherUrl, {params: params});
   }
 }

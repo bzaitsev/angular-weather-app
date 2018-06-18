@@ -1,7 +1,14 @@
 import { Component } from '@angular/core';
 import { WeatherService } from './services/weather.service';
 import { NotificationsService } from 'angular2-notifications';
-import { DatePipe } from '@angular/common';
+
+interface WeatherResponse {
+  cod: string,
+  list: any,
+  message: string,
+  cnt: number,
+  city: any
+};
 
 @Component({
   selector: 'app-root',
@@ -9,10 +16,24 @@ import { DatePipe } from '@angular/common';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+  weatherIconUrl: string;
+  cloudiness: string;
   firstLoad = true;
-  iconUrl = '';
-  weatherStatus = 'Status';
-  detailedWeather = {
+  loadingForecast = false;
+  chartData = null;
+  activeChartType = 'temperature';
+  chartTypes = ['temperature', 'pressure', 'wind', 'humidity'];
+
+  allForecast = {
+    list: [],
+    cnt: 0,
+    city: {
+      name: 'City',
+      country: 'Country'
+    }
+  };
+
+  detailForecast = {
     dt_txt: new Date(),
     weather: [{
       name: '',
@@ -31,16 +52,6 @@ export class AppComponent {
       speed: 0
     }
   };
-  allWeather = {
-    list: [],
-    cnt: 0,
-    city: {
-      name: 'City',
-      country: 'Country'
-    }
-  };
-  chartOptions = null;
-  chartParam = 'temperature';
 
   constructor(
     private weatherService: WeatherService,
@@ -49,151 +60,99 @@ export class AppComponent {
     this.getWeather('London');
   }
 
-  onSearchEnter(city) {
-    this.disableCitySearchField();
+  onSearchEnter(city: string) {
     this.getWeather(city);
   }
 
-  onToolbarClick(event) {
-    const target = event.target;
-    const type = target.getAttribute('data-type');
-
-    if (!type) return;
-
-    this.chartOptions = this.getChartOptions(type);
+  onChartTypeBtnClick(type: string) {
+    this.chartData = this.getChartData(type);
   }
 
-  disableCitySearchField(value = true) {
-    const citySearchField = document.getElementById('city-searchfield');
-
-    if (!citySearchField) return;
-
-    if (value) {
-      citySearchField.setAttribute('disabled', 'true');
-    } else {
-      citySearchField.removeAttribute('disabled');
-    }
-  }
-
-  getChartOptions(type) {
-    let data: any = {};
+  getChartData(type: string): any {
+    let chartData: any = {};
 
     if (type) {
-      this.chartParam = type;
+      this.activeChartType = type;
     }
 
-    switch (this.chartParam) {
+    switch (this.activeChartType) {
       case 'temperature':
-        data = this.getTemperatureData();
+        chartData = {
+          label: 'Temperature, C',
+          color: 'red',
+          data: this.allForecast.list.map(item => {
+            return item.main.temp;
+          })
+        };
         break;
+
       case 'pressure':
-        data = this.getPressureData();
+        chartData = {
+          label: 'Pressure, hPa',
+          color: 'orange',
+          data: this.allForecast.list.map(item => {
+            return item.main.pressure;
+          })
+        };
         break;
+
       case 'wind':
-        data = this.getWindData();
+        chartData = {
+          label: 'Wind, m/s',
+          color: 'green',
+          data: this.allForecast.list.map(item => {
+            return item.wind.speed;
+          })
+        };
         break;
+
       case 'humidity':
-        data = this.getHumidityData();
+        chartData = {
+          label: 'Humidity, %',
+          color: 'blue',
+          data: this.allForecast.list.map(item => {
+            return item.main.humidity;
+          })
+        };
         break;
     }
 
-    data.labels = this.allWeather.list.map(item => {
-      const datePipe = new DatePipe('en-US');
-      return datePipe.transform(item.dt_txt, 'H:mm, d MMM'); // 15:00, 6 Feb
+    chartData.labels = this.allForecast.list.map(item => {
+      return item.dt_txt;
     });
 
-    return data;
+    return chartData;
   }
 
-  getTemperatureData() {
-    let chartData = this.allWeather.list.map(item => {
-      return item.main.temp;
-    });
-
-    return {
-      data: chartData,
-      label: 'Temperature, C',
-      backgroundColor: 'rgba(255, 80, 80, 0.3)',
-      hoverBackgroundColor: 'rgba(255, 80, 80, 0.5)',
-      borderColor: 'rgba(255, 80, 80, 1)'
-    }
-  }
-
-  getPressureData() {
-    let chartData = this.allWeather.list.map(item => {
-      return item.main.pressure;
-    });
-
-    return {
-      data: chartData,
-      label: 'Pressure, hPa',
-      backgroundColor: 'rgba(255, 108, 3, 0.3)',
-      hoverBackgroundColor: 'rgba(255, 108, 3, 0.5)',
-      borderColor: 'rgba(255, 108, 3, 1)'
-    }
-  }
-
-  getWindData() {
-    let chartData = this.allWeather.list.map(item => {
-      return item.wind.speed;
-    });
-
-    return {
-      data: chartData,
-      label: 'Wind, m/s',
-      backgroundColor: 'rgba(3, 255, 34, 0.3)',
-      hoverBackgroundColor: 'rgba(3, 255, 34, 0.5)',
-      borderColor: 'rgba(3, 255, 34, 1)'
-    }
-  }
-
-  getHumidityData() {
-    let chartData = this.allWeather.list.map(item => {
-      return item.main.humidity;
-    });
-
-    return {
-      data: chartData,
-      label: 'Humidity, %',
-      backgroundColor: 'rgba(3, 69, 255, 0.3)',
-      hoverBackgroundColor: 'rgba(3, 69, 255, 0.5)',
-      borderColor: 'rgba(3, 69, 255, 1)'
-    }
-  }
-
-  getWeather(city) {
+  getWeather(city: string) {
+    this.loadingForecast = true;
     this.weatherService.getWeather(city).subscribe(
-      response => {
-        this.disableCitySearchField(false);
+      (response: WeatherResponse) => {
+        this.loadingForecast = false;
 
-        if (!response || !response.json) {
+        if (!response) {
           return this.notificationsService.error('Error', 'Server error.');
         }
 
-        const data = response.json();
-
-        if (+data.cod !== 200) {
-          return this.notificationsService.error('Error', `${data.cod} ${data.message}`);
+        if (+response.cod !== 200) {
+          return this.notificationsService.error('Error', `${response.cod} ${response.message}`);
         }
 
-        // set data
-        this.allWeather = data;
-        this.detailedWeather = data.list[0];
-        this.iconUrl = `https://openweathermap.org/img/w/${this.detailedWeather.weather[0].icon}.png`;
-        this.weatherStatus = this.detailedWeather.weather[0].main;
+        this.allForecast = response;
+        this.detailForecast = response.list[0];
+        this.weatherIconUrl = `https://openweathermap.org/img/w/${this.detailForecast.weather[0].icon}.png`;
+        this.cloudiness = this.detailForecast.weather[0].main;
+        this.chartData = this.getChartData(this.activeChartType);
 
         if (this.firstLoad) {
           this.firstLoad = false;
         } else {
-          this.notificationsService.success('Loaded Forecast', `${this.allWeather.city.name}, ${this.allWeather.city.country}`);
+          this.notificationsService.success('Loaded Forecast', `${this.allForecast.city.name}, ${this.allForecast.city.country}`);
         }
-
-        this.chartOptions = this.getChartOptions(this.chartParam);
       },
       error => {
-        const data = error.json();
-        this.disableCitySearchField(false);
-        return this.notificationsService.error(`Error ${data.cod}`, data.message);
+        this.loadingForecast = false;
+        return this.notificationsService.error(`Error ${error.cod}`, error.message);
       }
     );
   }
