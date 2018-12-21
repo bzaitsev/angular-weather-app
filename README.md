@@ -1,4 +1,4 @@
 # Weather forecast application
-[Demo](http://bzaitsev.github.io/)
+[Demo](https://bzaitsev.github.io/weather-forecast/)
 
 Used Angular 6, chart.js, openweathermap API.
