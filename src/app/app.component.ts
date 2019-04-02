@@ -10,6 +10,20 @@ interface WeatherResponse {
   city: any
 };
 
+interface DetailForecast {
+  dt_txt: Date,
+  weather: any[],
+  main: object,
+  clouds: object,
+  wind: object
+};
+
+interface AllForecast {
+  list: any[],
+  cnt: number,
+  city: { name: string, country: string }
+};
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -18,45 +32,37 @@ interface WeatherResponse {
 export class AppComponent {
   weatherIconUrl: string;
   cloudiness: string;
-  firstLoad = true;
-  loadingForecast = false;
-  chartData = null;
-  activeChartType = 'temperature';
-  chartTypes = ['temperature', 'pressure', 'wind', 'humidity'];
-
-  allForecast = {
-    list: [],
-    cnt: 0,
-    city: {
-      name: 'City',
-      country: 'Country'
-    }
-  };
-
-  detailForecast = {
-    dt_txt: new Date(),
-    weather: [{
-      name: '',
-      icon: '',
-      main: ''
-    }],
-    main: {
-      temp: 0,
-      pressure: 0,
-      humidity: 0
-    },
-    clouds: {
-      all: 0
-    },
-    wind: {
-      speed: 0
-    }
-  };
+  detailForecast: DetailForecast;
+  allForecast: AllForecast;
+  firstLoad: boolean;
+  loadingForecast: boolean;
+  chartData: any;
+  activeChartType: string;
+  chartTypes: string[];
 
   constructor(
     private weatherService: WeatherService,
     private notificationsService: NotificationsService
   ) {
+    this.detailForecast = {
+      dt_txt: new Date(),
+      weather: [{ name: '', icon: '', main: '' }],
+      main: { temp: 0, pressure: 0, humidity: 0 },
+      clouds: { all: 0 },
+      wind: { speed: 0 }
+    };
+
+    this.allForecast = {
+      list: [],
+      cnt: 0,
+      city: { name: 'City', country: 'Country' }
+    };
+
+    this.firstLoad = true;
+    this.loadingForecast = false;
+    this.chartData = null;
+    this.activeChartType = 'temperature';
+    this.chartTypes = ['temperature', 'pressure', 'wind', 'humidity'];
     this.getWeather('London');
   }
 
@@ -140,7 +146,7 @@ export class AppComponent {
 
         this.allForecast = response;
         this.detailForecast = response.list[0];
-        this.weatherIconUrl = `https://openweathermap.org/img/w/${this.detailForecast.weather[0].icon}.png`;
+        this.weatherIconUrl = `${this.weatherService.getIconUrl()}${this.detailForecast.weather[0].icon}.png`;
         this.cloudiness = this.detailForecast.weather[0].main;
         this.chartData = this.getChartData(this.activeChartType);
 
