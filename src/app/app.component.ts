@@ -61,6 +61,7 @@ export class AppComponent {
     this.firstLoad = true;
     this.loadingForecast = false;
     this.chartData = null;
+    this.weatherIconUrl = '';
     this.activeChartType = 'temperature';
     this.chartTypes = ['temperature', 'pressure', 'wind', 'humidity'];
     this.getWeather('London');

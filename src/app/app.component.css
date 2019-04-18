@@ -46,12 +46,16 @@
   margin-left: 15px;
 }
 .app-footer {
-  margin-top: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;  
+  height: 40px;
+  margin-top: 0;
   font-size: 14px;
-  text-align: center;
 }
-.app-footer .angular-logo {
+.app-footer .inline-logo {
   width: 15px;
+  margin: 0 5px;
   vertical-align: text-bottom;
 }
 .app-chart-toolbar {
