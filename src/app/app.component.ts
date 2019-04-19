@@ -13,9 +13,13 @@ interface WeatherResponse {
 interface DetailForecast {
   dt_txt: Date,
   weather: any[],
-  main: object,
-  clouds: object,
-  wind: object
+  main: {
+    temp: number,
+    pressure: number,
+    humidity: number
+  },
+  clouds: { all: number },
+  wind: { speed: number }
 };
 
 interface AllForecast {
