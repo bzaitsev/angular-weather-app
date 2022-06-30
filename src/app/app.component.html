@@ -4,7 +4,7 @@
   <div class="app-head">
     <div>
       <img [src]="weatherIconUrl" alt="" class="icon-cloudiness">
-      Forecast
+      <span class="icon-text">Forecast</span>
     </div>
     <input
       type="search"
@@ -34,10 +34,10 @@
   </div>
 
   <div class="app-center-text app-parameters">
-    <strong class="app-parameter">Pressure:</strong> {{detailForecast.main.pressure | number: '1.0-0'}} hPa
-    <strong class="app-parameter">Humidity:</strong> {{detailForecast.main.humidity}}%
-    <strong class="app-parameter">Wind Speed:</strong> {{detailForecast.wind.speed | number: '1.0-1'}} m/s
-    <strong class="app-parameter">Clouds:</strong> {{detailForecast.clouds.all}}%
+    <span><strong class="app-parameter">Pressure:</strong> {{detailForecast.main.pressure | number: '1.0-0'}}&nbsp;hPa</span>
+    <span><strong class="app-parameter">Humidity:</strong> {{detailForecast.main.humidity}}%</span>
+    <span><strong class="app-parameter">Wind Speed:</strong> {{detailForecast.wind.speed | number: '1.0-1'}}&nbsp;m/s</span>
+    <span><strong class="app-parameter">Clouds:</strong> {{detailForecast.clouds.all}}%</span>
   </div>
 
   <div class="app-side-paddings">

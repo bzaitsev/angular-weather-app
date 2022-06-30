@@ -6,6 +6,7 @@
 .app-head {
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
 .app-side-paddings {
   padding-left: 10px;
@@ -17,7 +18,11 @@
   background-color: #ddd;
 }
 .app-parameters {
+  display: flex;
+  justify-content: center;
+  gap: 10px 20px;
   margin-bottom: 20px;
+  line-height: 1.2;
 }
 .app-data-block {
   padding-top: 15px;
@@ -79,4 +84,30 @@
 .app-chart-toolbar .active,
 .app-chart-toolbar .active:hover {
   background-color: #ddd;
+}
+
+@media (max-width: 451px) {
+  .app-root {
+    font-size: 14px;
+  }
+  .app-temperature {
+    font-size: 20px;
+  }
+  .app-parameters {
+    flex-wrap: wrap;
+  }
+  .app-chart-toolbar {
+    display: flex;
+    gap: 2px;
+    flex-wrap: wrap;
+  }
+  .app-chart-toolbar button:not(:first-of-type) {
+    border-left-width: 1px;
+  }
+}
+
+@media (max-width: 331px) {
+  .app-head .icon-text {
+    display: none;
+  }
 }
