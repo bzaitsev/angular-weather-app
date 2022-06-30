@@ -1,4 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
+:root {
+  --app-border-radius: 2px;
+}
 
 body {
   min-height: 100vh;
@@ -10,5 +13,5 @@ app-root {
   flex-direction: column;
   justify-content: space-between;
   min-height: 100vh;
-  padding: 10px 10px 0;
+  padding: 5px 5px 0;
 }

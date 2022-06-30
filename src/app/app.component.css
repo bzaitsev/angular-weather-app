@@ -1,6 +1,7 @@
 .app-root {
   font-family: helvetica, sans-serif;
   border: 1px solid #ccc;
+  border-radius: var(--app-border-radius);
   padding-bottom: 10px;
 }
 .app-head {
@@ -15,13 +16,13 @@
 .app-head,
 .app-parameters {
   padding: 10px;
-  background-color: #ddd;
+  background: linear-gradient(0deg, #ddd, #fff);
 }
 .app-parameters {
   display: flex;
   justify-content: center;
   gap: 10px 20px;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   line-height: 1.2;
 }
 .app-data-block {
@@ -30,6 +31,9 @@
 }
 .app-searchfield {
   padding: 5px;
+  border-radius: var(--app-border-radius);
+  border: 1px solid #ccc;
+  outline: none;
 }
 .icon-cloudiness {
   max-height: 1.8em;
@@ -40,6 +44,17 @@
 }
 .app-temperature {
   font-size: 25px;
+  display: inline-block;
+  font-weight: 700;
+  position: relative;
+  top: 1px;
+}
+.text-gradient {  
+  background: linear-gradient(45deg, rgb(244 138 206), rgb(73 58 151));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 0 1px Violet);
 }
 .app-cloudiness {
   font-size: 14px;
@@ -63,9 +78,6 @@
   margin: 0 5px;
   vertical-align: text-bottom;
 }
-.app-chart-toolbar {
-  margin: 20px 0 0 0;
-}
 .app-chart-toolbar button {
   background-color: #f6f6f6;
   border: 1px solid #ccc;
@@ -74,6 +86,12 @@
   cursor: pointer;
   outline: none;
   text-transform: capitalize;
+}
+.app-chart-toolbar button:first-of-type {
+  border-radius: var(--app-border-radius) 0 0 var(--app-border-radius);
+}
+.app-chart-toolbar button:last-of-type {
+  border-radius: 0 var(--app-border-radius) var(--app-border-radius) 0;
 }
 .app-chart-toolbar button:not(:first-of-type) {
   border-left-width: 0;
@@ -84,6 +102,12 @@
 .app-chart-toolbar .active,
 .app-chart-toolbar .active:hover {
   background-color: #ddd;
+}
+.icon-angular {
+  filter: drop-shadow(0px 0px 1px #e13137);
+}
+.icon-chartjs {
+  filter: drop-shadow(0px 0px 1px #fe777b);
 }
 
 @media (max-width: 451px) {
@@ -103,6 +127,9 @@
   }
   .app-chart-toolbar button:not(:first-of-type) {
     border-left-width: 1px;
+  }
+  .app-chart-toolbar[class] button {
+    border-radius: var(--app-border-radius);
   }
 }
 

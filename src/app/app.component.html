@@ -22,7 +22,7 @@
         {{allForecast.city.name}}, {{allForecast.city.country}}
       </div>
 
-      <div class="app-temperature">
+      <div class="app-temperature text-gradient">
         {{detailForecast.main.temp | number: '1.0-0'}}&deg;C
       </div>
 
@@ -41,8 +41,6 @@
   </div>
 
   <div class="app-side-paddings">
-    3 hour forecast ({{allForecast.cnt}} intervals shown)
-
     <div class="app-chart-toolbar">
       <button
         *ngFor="let chartType of chartTypes"
@@ -58,6 +56,6 @@
 
 <footer class="app-footer">
   Powered by:
-  <img src="favicon.ico" class="inline-logo">Angular 6,
-  <img src="assets/images/chartjs-logo.svg" class="inline-logo"> Chart.js 2
+  <img src="favicon.ico" class="inline-logo icon-angular">Angular 
+  <img src="assets/images/chartjs-logo.svg" class="inline-logo icon-chartjs"> Chart.js
 </footer>

@@ -68,7 +68,7 @@ export class AppComponent {
     this.weatherIconUrl = '';
     this.activeChartType = 'temperature';
     this.chartTypes = ['temperature', 'pressure', 'wind', 'humidity'];
-    this.getWeather('London');
+    this.getWeather('Dnipro');
   }
 
   onSearchEnter(city: string) {
