@@ -7,7 +7,7 @@
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "/* You can add global styles to this file, and also import other style files */\r\n\r\nbody {\r\n  min-height: 100vh;\r\n  margin: 0;\r\n}\r\n\r\napp-root {\r\n  box-sizing: border-box;\r\n  display: flex;\r\n  flex-direction: column;\r\n  justify-content: space-between;\r\n  min-height: 100vh;\r\n  min-width: 650px;\r\n  padding: 10px 10px 0;\r\n}"
+module.exports = "/* You can add global styles to this file, and also import other style files */\r\n:root {\r\n  --app-border-radius: 2px;\r\n}\r\nbody {\r\n  min-height: 100vh;\r\n  margin: 0;\r\n}\r\napp-root {\r\n  box-sizing: border-box;\r\n  display: flex;\r\n  flex-direction: column;\r\n  justify-content: space-between;\r\n  min-height: 100vh;\r\n  padding: 5px 5px 0;\r\n}"
 
 /***/ }),
 
@@ -539,7 +539,7 @@ if(false) {}
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! D:\local_projects\local\github.bzaitsev\angular-weather-app\src\styles.css */"./src/styles.css");
+module.exports = __webpack_require__(/*! C:\My apps\angular-weather-app\src\styles.css */"./src/styles.css");
 
 
 /***/ })
