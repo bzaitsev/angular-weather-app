@@ -26,8 +26,11 @@
   line-height: 1.2;
 }
 .app-data-block {
-  padding-top: 15px;
+  padding-top: 10px;
   padding-bottom: 10px;
+}
+.date {
+  margin-bottom: 5px;
 }
 .app-searchfield {
   padding: 5px;
@@ -35,9 +38,15 @@
   border: 1px solid #ccc;
   outline: none;
 }
+.sky-status {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 .icon-cloudiness {
   max-height: 1.8em;
   vertical-align: middle;
+  margin-right: 5px;
 }
 .app-center-text {
   text-align: center;
@@ -58,6 +67,9 @@
 }
 .app-cloudiness {
   font-size: 14px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .app-parameter {
   display: inline-block;

@@ -2,7 +2,7 @@
   <simple-notifications></simple-notifications>
 
   <div class="app-head">
-    <div>
+    <div class="sky-status">
       <img [src]="weatherIconUrl" alt="" class="icon-cloudiness">
       <span class="icon-text">Forecast</span>
     </div>
@@ -16,7 +16,7 @@
   </div>
 
   <div class="app-data-block app-side-paddings">
-    <div>{{detailForecast.dt_txt | date:'EEEE, d MMMM'}}</div>
+    <div class="date">{{detailForecast.dt_txt | date:'EEEE, d MMMM'}}</div>
     <div class="app-center-text">
       <div class="app-location">
         {{allForecast.city.name}}, {{allForecast.city.country}}
