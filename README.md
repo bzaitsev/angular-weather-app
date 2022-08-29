@@ -1,4 +1,4 @@
-# Weather forecast application
+# Weather forecast
 [Demo](https://bzaitsev.github.io/angular-weather-app/)
 
-Used Angular 6, Сhart.js, OpenWeatherMap API.
+Tech stack: Angular, Сhart.js, [OpenWeatherMap API](https://api.openweathermap.org).
